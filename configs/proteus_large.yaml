@@ -1,0 +1,42 @@
+model:
+  vocab_size: 25
+  d_model: 768
+  n_heads: 12
+  n_layers: 24
+  max_seq_length: 2048
+  hierarchical_levels: 4
+  physics_features: 128
+
+training:
+  batch_size: 16
+  learning_rate: 5e-5
+  weight_decay: 1e-5
+  max_epochs: 200
+  warmup_steps: 2000
+  gradient_clip: 1.0
+  
+  # Novel training objectives
+  loss_weights:
+    function_prediction: 1.0
+    structure_prediction: 0.5
+    stability_prediction: 0.3
+    physics_consistency: 0.2
+    evolutionary_similarity: 0.1
+
+physics:
+  enable_distance_bias: true
+  enable_interaction_matrix: true
+  enable_secondary_structure_bias: true
+  physics_regularization: 0.01
+
+data:
+  datasets:
+    - "UniProt/Swiss-Prot"
+    - "PDB"
+    - "GO"
+    - "Pfam"  # Additional protein families data
+    
+  preprocessing:
+    max_sequence_length: 2048
+    min_sequence_length: 50
+    remove_ambiguous: true
